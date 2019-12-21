@@ -8,13 +8,15 @@ if (process.argv[2] === 'manual') {
 
 const Client = require('pg').Client;
 
-const client = new Client({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
-});
+const client = process.env.DATABASE_URL
+  ? new Client({ connectionString: process.env.DATABASE_URL})
+  : new Client({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASS,
+    port: process.env.DB_PORT,
+  });
 
 
 const voterTable = 'voters';

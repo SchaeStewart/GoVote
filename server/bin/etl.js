@@ -131,13 +131,15 @@ const addResidentAddressField = () => {
   } SET resident_address = regexp_replace(res_street_address, '\\s+', ' ', 'g');`);
 };
 
-const client = new Client({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
-});
+const client = process.env.DATABASE_URL
+  ? new Client({ connectionString: process.env.DATABASE_URL})
+  : new Client({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASS,
+    port: process.env.DB_PORT,
+  });
 
 client.connect();
 const filePath = `${__dirname}/tmp`; // I.E. ./bin/tmp
