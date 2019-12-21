@@ -1,5 +1,12 @@
+setup:
+  addons:
+  - plan: heroku-postgresql:hobby-dev
 build:
   docker:
     web: server/Dockerfile
+release:
+  image: web
+  command:
+    - node ./bin/create-tables.js && node ./bin/etl.js
 run:
   web: npm run start
